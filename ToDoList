@@ -1,0 +1,91 @@
+import React, { Component, useState } from 'react';
+import { Touchable, TouchableOpacity } from 'react-native';
+import { ScrollView, SectionList } from 'react-native';
+import { Text, View,Button,StyleSheet,TextInput, FlatList } from 'react-native';
+
+const App=()=>{
+  const[task,setTask]=useState([]);
+  const[name,setName]=useState('');
+  const delet=(item)=>{
+
+    const update = task.filter((element)=> item !== element);
+    setTask(update);
+  };
+  return(
+  <View style={styles.main}>
+    <View style={styles.box}>
+    <Text style={styles.title} >TO DO LIST</Text>
+   <FlatList
+   data={task}
+   renderItem={({item})=><View style={styles.wrap}>
+   <Text style={{fontSize:30}}>{item}</Text>
+   <TouchableOpacity onPress={()=>delet(item)}>
+    <View style={styles.radio}></View>
+   </TouchableOpacity>
+
+   </View>}
+   keyExtractor={(item, index) => index.toString()}
+   >
+   </FlatList>
+    </View>
+    <View style={styles.inputwrap}>
+   <TextInput
+   style={styles.textinput}
+   placeholder='Enter the task'
+   value={name}
+   onChangeText={(text)=>setName(text)}
+   />
+
+   <TouchableOpacity title='Add Task' onPress={()=>{
+    setTask([...task,name]);
+    setName('');
+    value='';
+   }}>
+    <View style={styles.radio}></View>
+   </TouchableOpacity>
+   </View>
+   
+   </View>
+  )
+};
+const styles=StyleSheet.create({
+  main:{
+    flex:1,
+    backgroundColor:'pink'
+  }, 
+  box:{
+   flex:1
+  },
+  wrap:{
+   flexDirection:'row',
+   justifyContent: 'space-between',
+   borderWidth:2,
+   borderColor:'red',
+   margin:5,
+   borderRadius:10,
+   padding:5
+  },
+  title:{
+    fontSize:40,
+    marginTop:80,
+    textAlign:'center',
+    color:'red'
+  },
+  radio:{
+    height:40,
+    width:40,
+    borderColor:'black',
+    borderWidth:2,
+    borderRadius:20,
+  },
+  textinput:{
+    fontSize:30,borderColor:'red',borderWidth:3,borderRadius:5,
+    width:200
+   
+    },
+  inputwrap:{
+    flexDirection:'row',
+   justifyContent:'space-evenly'
+  }
+})
+export default App;
